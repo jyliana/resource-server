@@ -1,19 +1,28 @@
 package com.apps.ws.api.resourceserver.controller;
 
 import com.apps.ws.api.resourceserver.response.UserRest;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.env.Environment;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
+@AllArgsConstructor
 @RestController
 @RequestMapping("/users")
 public class UsersController {
 
+  Environment env;
+
   @GetMapping("/status/check")
   public String status() {
-    return "Working...";
+    var port = env.getProperty("local.server.port");
+    log.info("request was accepted on port: " + port);
+    return "Working on port: " + port;
   }
 
   @PreAuthorize("hasAuthority('ROLE_developer') or #id == #jwt.subject")

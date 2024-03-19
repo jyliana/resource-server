@@ -10,7 +10,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
-@EnableMethodSecurity(securedEnabled=true)
+@EnableMethodSecurity(securedEnabled = true)
 @EnableWebSecurity
 public class WebSecurity {
 
@@ -20,9 +20,7 @@ public class WebSecurity {
     JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
     jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(new KeycloakRoleConverter());
 
-
-    http
-            .authorizeHttpRequests((auth) -> auth.requestMatchers(HttpMethod.GET, "/users/status/check")
+    http.authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.GET, "/users/status/check")
                     // .hasAuthority("SCOPE_profile")
                     .hasRole("developer")
                     // .hasAnyAuthority("ROLE_developer")
