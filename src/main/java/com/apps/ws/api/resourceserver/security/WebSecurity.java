@@ -27,7 +27,7 @@ public class WebSecurity {
     jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(new KeycloakRoleConverter());
 
     http
-//            .cors(a -> corsConfigurationSource())
+//            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.GET, "/users/status/check")
                     // .hasAuthority("SCOPE_profile")
                     .hasRole("developer")
