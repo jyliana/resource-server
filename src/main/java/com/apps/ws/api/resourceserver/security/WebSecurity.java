@@ -8,6 +8,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 @EnableMethodSecurity(securedEnabled = true)
@@ -20,7 +26,9 @@ public class WebSecurity {
     JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
     jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(new KeycloakRoleConverter());
 
-    http.authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.GET, "/users/status/check")
+    http
+//            .cors(a -> corsConfigurationSource())
+            .authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.GET, "/users/status/check")
                     // .hasAuthority("SCOPE_profile")
                     .hasRole("developer")
                     // .hasAnyAuthority("ROLE_developer")
@@ -32,4 +40,16 @@ public class WebSecurity {
     return http.build();
   }
 
+//  @Bean
+//  public CorsConfigurationSource corsConfigurationSource() {
+//    var corsConfiguration = new CorsConfiguration();
+//    corsConfiguration.setAllowedOrigins(List.of("*"));
+//    corsConfiguration.setAllowedMethods(List.of("GET", "POST"));
+//    corsConfiguration.setAllowedHeaders(List.of("*"));
+//
+//    var source = new UrlBasedCorsConfigurationSource();
+//    source.registerCorsConfiguration("/**", corsConfiguration);
+//
+//    return source;
+//  }
 }
